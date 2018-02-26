@@ -1,8 +1,9 @@
 package ca.ualberta.cs.lonelytwitter;
 
+import java.util.ArrayList;
 import java.util.Date;
 
-public abstract class Tweet implements Tweetable {
+public abstract class Tweet implements Tweetable, MyObservable {
     private String message;
     private Date date;
 
@@ -30,6 +31,8 @@ public abstract class Tweet implements Tweetable {
             throw new TweetTooLongException();
         }
         this.message = message;
+
+        notifyAllObservers();
     }
 
     public void setDate(Date date) {
@@ -42,5 +45,17 @@ public abstract class Tweet implements Tweetable {
 
     public Date getDate() {
         return date;
+    }
+
+    private volatile ArrayList<MyObserver> observers = new ArrayList<MyObserver>();
+
+    public void addObserver(MyObserver observer) {
+        observers.add(observer);
+    }
+
+    private void notifyAllObservers() {
+        for (MyObserver observer : observers) {
+            observer.myNotify(this);
+        }
     }
 }
