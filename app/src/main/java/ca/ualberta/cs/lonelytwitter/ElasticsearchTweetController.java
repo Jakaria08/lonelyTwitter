@@ -60,9 +60,14 @@ public class ElasticsearchTweetController {
 
             // TODO Build the query
 
-            String query = "";
+            //String query = "{ \"size\": 3, \"query\" : { \"term\" : { \"message\" : \""+ search_parameters[0] + "\"}}}";
+            String query = "{ \"size\": 3, \n" +
+                    "    \"query\" : {\n" +
+                    "        \"term\" : { \"message\" : \"" + search_parameters[0] + "\" }\n" +
+                    "    }\n" +
+                    "}" ;
 
-            Search search = new Search.Builder(search_parameters[0])
+            Search search = new Search.Builder(query)
                     .addIndex("testing")
                     .addType("tweet")
                     .build();
