@@ -39,6 +39,8 @@ public abstract class Tweet {
      * @param date tweet date
      */
 
+    public Tweet() {}
+
     public Tweet(String message, Date date) {
         this.message = message;
         this.date = date;

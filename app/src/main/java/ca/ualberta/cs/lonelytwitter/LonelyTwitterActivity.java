@@ -15,6 +15,7 @@ import java.util.Date;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -22,8 +23,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import static android.content.ContentValues.TAG;
 
 public class LonelyTwitterActivity extends Activity {
 
@@ -50,7 +58,7 @@ public class LonelyTwitterActivity extends Activity {
 				setResult(RESULT_OK);
 				String text = bodyText.getText().toString();
 
-				NormalTweet newTweet = new NormalTweet("Hello");
+				NormalTweet newTweet = new NormalTweet(text);
 
 				tweetList.add(newTweet);
 
@@ -71,6 +79,21 @@ public class LonelyTwitterActivity extends Activity {
 		adapter = new ArrayAdapter<Tweet>(this,
 				R.layout.list_item, tweetList);
 		oldTweetsList.setAdapter(adapter);
+		DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+		myRef.addValueEventListener(new ValueEventListener() {
+			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+				for(DataSnapshot data : dataSnapshot.getChildren()){
+					NormalTweet tweet = data.getValue(NormalTweet.class);
+					if(tweet != null) {
+						Log.d(TAG, tweet.getMessage());
+					}
+				}
+			}
+
+			public void onCancelled(@NonNull DatabaseError databaseError) {
+
+			}
+		});
 	}
 
 	private void loadFromFile() {
