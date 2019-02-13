@@ -35,7 +35,7 @@ import static android.content.ContentValues.TAG;
 
 public class LonelyTwitterActivity extends Activity {
 
-	private static final String FILENAME = "file.sav";
+	private static final String FILENAME = "file1.sav";
 	private EditText bodyText;
 	private ListView oldTweetsList;
 

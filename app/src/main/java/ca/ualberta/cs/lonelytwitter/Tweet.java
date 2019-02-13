@@ -26,11 +26,17 @@ public abstract class Tweet {
 
     private String message;
     private Date date;
+    String uniqueId;
 
     public Tweet(String message){
         this.message = message;
         this.date = new Date();
+
     }
+
+
+
+    public Tweet() {}
 
     /**
      * Constructs Tweet objects
@@ -38,8 +44,6 @@ public abstract class Tweet {
      * @param message tweet message
      * @param date tweet date
      */
-
-    public Tweet() {}
 
     public Tweet(String message, Date date) {
         this.message = message;
